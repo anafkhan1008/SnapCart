@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const port = 3000;
 const mongoose = require('mongoose');
 const seedDB = require('./seed');
 const productRoutes = require('./routes/product');
@@ -8,9 +7,11 @@ const authRoutes = require('./routes/auth')
 const cartRoutes = require('./routes/cart')
 const wishlistRoutes = require('./routes/wishlist')
 const cors = require('cors');
+require('dotenv').config();
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/EcomGrull')
+
+mongoose.connect(process.env.MONGO_URL)
     .then(() => {
         console.log('DB connected');
     })
@@ -30,8 +31,8 @@ app.use(authRoutes);
 app.use(cartRoutes);
 app.use(wishlistRoutes)
 
-app.listen(port, () => {
-    console.log(`App is listening on port ${port}`);
+app.listen(process.env.PORT, () => {
+    console.log(`App is listening on port ${process.env.PORT}`);
 });
 
 
