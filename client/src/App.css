@@ -1,0 +1,53 @@
+
+
+#root , body , html {
+  padding: 0;
+
+}
+.StyledButton {
+  margin-top: 3px;
+  padding: 20px 60px;
+  height: 100%;
+  width: auto;
+  background-color: black !important;
+  color: white;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.StyledButton:hover {
+  background-color: white !important;
+  color: black;
+  cursor: pointer; 
+}
+
+.StyleTextBlack {
+  color: black !important;
+  text-decoration: none !important;
+  font-family: 'Chakra Petch' , 'Fredoka';;
+}
+
+.StyleTextWhite {
+  color: white !important;
+  text-decoration: none !important;
+  font-family: 'Chakra Petch' , 'Fredoka';;
+}
+
+.LinkNoUnderline {
+  text-decoration: none !important;
+}
+
+.input {
+  border-color: black;
+}
+
+.focused .input {
+  border-color: black !important;
+}
+
+
+
+
+
+
+
+
