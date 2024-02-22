@@ -11,6 +11,7 @@ import { Grid, Button, Box } from '@mui/material';
 
 import Footer from '../Components/Footer';
 import WishListItem from '../Components/WishListItem';
+import base_url from '../config';
 
 function Cart() {
   const { user } = useContext(UserContext)
@@ -19,7 +20,7 @@ function Cart() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/wishlist/${user._id}`)
+      const response = await axios.get(`${base_url}/wishlist/${user._id}`)
       setData(response.data)
       console.log(response.data)
     } catch (error) {

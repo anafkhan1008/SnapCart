@@ -16,6 +16,7 @@ import Navbar from "../Components/Navbar";
 import axios from "axios";
 import UserContext from "../context/UserContext";
 import Footer from "../Components/Footer";
+import base_url from "../config";
 
 const Product = () => {
   const { id } = useParams();
@@ -46,7 +47,7 @@ const Product = () => {
   const addToDBCart = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/users/${user._id}/cart/add`,
+        `${base_url}/users/${user._id}/cart/add`,
         { productId: id, quantity }
       );
       if (response.status === 200) {
@@ -62,7 +63,7 @@ const Product = () => {
   const removeFromCartDB = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:3000/users/${user._id}/cart/remove/${id}`
+        `${base_url}/users/${user._id}/cart/remove/${id}`
       );
       if (res.status === 200) {
         removeFromCart(id);
@@ -76,7 +77,7 @@ const Product = () => {
 
   const addWishlistItemToDB = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/wishlist/add", {
+      const response = await axios.post(`${base_url}/wishlist/add`, {
         userId: user._id,
         productId: id,
       });
@@ -93,7 +94,7 @@ const Product = () => {
   const removeWishlistItemToDB = async () => {
     try {
       const response = await axios.delete(
-        "http://localhost:3000/wishlist/remove",
+        `${base_url}/wishlist/remove`,
         {
           data: {
             userId: user._id,
@@ -114,7 +115,7 @@ const Product = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/product/${id}`);
+        const response = await axios.get(`${base_url}/product/${id}`);
         setProduct(response.data);
       } catch (error) {
         console.error("Error fetching product:", error);

@@ -10,6 +10,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import UserContext from '../context/UserContext'
 import { useContext } from 'react';
 import axios from 'axios';
+import base_url from '../config';
 
 const CartItem = ({ item }) => {
   const theme = useTheme();
@@ -19,7 +20,7 @@ const CartItem = ({ item }) => {
     const userId = user._id
 
   const handleRemove = async() => {
-    const res = await axios.delete(`http://localhost:3000/users/${userId}/cart/remove/${prodId}`)
+    const res = await axios.delete(`${base_url}/${userId}/cart/remove/${prodId}`)
     if(res.status == 200)
     {
        removeFromCart(prodId)

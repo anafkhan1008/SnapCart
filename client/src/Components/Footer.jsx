@@ -4,6 +4,7 @@ import { Facebook, Twitter, Instagram, Home, Info, MailOutline } from '@mui/icon
 import styled from '@emotion/styled';
 
 const FooterWrapper = styled(Box)({
+  marginTop : '50px',
   backgroundColor: '#030c1a'
 });
 

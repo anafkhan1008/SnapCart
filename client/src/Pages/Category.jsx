@@ -6,6 +6,7 @@ import HeroImage from "../assets/images/home3.jpg"
 import axios from 'axios';
 import Product from '../Components/Product';
 import Footer from '../Components/Footer';
+import base_url from '../config';
 
 function Category() {
   const { name } = useParams();
@@ -13,7 +14,7 @@ function Category() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/category/${name}`);
+      const response = await axios.get(`${base_url}/category/${name}`);
       setData(response.data);
       console.log(response.data)
     } catch (error) {

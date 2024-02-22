@@ -9,7 +9,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Grid, Button, Box } from '@mui/material';
 import Footer from '../Components/Footer';
-
+import base_url from '../config';
 function Cart() {
   const { user } = useContext(UserContext)
   const [data, setData] = useState([])
@@ -17,7 +17,7 @@ function Cart() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/users/${user._id}/cart`)
+      const response = await axios.get(`${base_url}/users/${user._id}/cart`)
       setData(response.data)
     } catch (error) {
       console.error('Error fetching cart data:', error);

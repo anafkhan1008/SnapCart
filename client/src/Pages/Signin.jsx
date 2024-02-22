@@ -17,6 +17,7 @@ import UserContext from '../context/UserContext';
 import { useContext } from 'react';
 import { useSnackbar } from 'notistack';
 import backgroundImage from '../assets/images/home.jpg';
+import base_url from '../config';
 
 function Signin() {
   const { setUser } = useContext(UserContext);
@@ -31,7 +32,7 @@ function Signin() {
     });
 
     try {
-      const response = await axios.post("http://localhost:3000/login", formData);
+      const response = await axios.post(`${base_url}/login`, formData);
       if (response.data.user) {
         localStorage.setItem('user', JSON.stringify(response.data.user));
         enqueueSnackbar('Login successful', { variant: 'success' });
@@ -118,7 +119,7 @@ function Signin() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2" className='StyleTextBlack'>
+                <Link href="/signup" variant="body2" className='StyleTextBlack'>
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

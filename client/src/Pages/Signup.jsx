@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import base_url from '../config';
 
 function Copyright(props) {
   return (
@@ -40,7 +41,7 @@ export default function Signup() {
       email: data.get('email'),
       password: data.get('password'),
     }
-    const response = await axios.post("http://localhost:3000/register" , formData)
+    const response = await axios.post(`${base_url}/register` , formData)
    
     if (response.status == 200) {
         console.log(response.status)

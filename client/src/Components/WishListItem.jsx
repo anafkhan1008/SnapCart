@@ -11,6 +11,7 @@ import UserContext from '../context/UserContext'
 import { useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import base_url from '../config';
 
 
 const WishListItem = ({ item }) => {
@@ -25,7 +26,7 @@ const WishListItem = ({ item }) => {
 
   const removeWishlistItemToDB = async () => {
     try {
-      const response = await axios.delete("http://localhost:3000/wishlist/remove", {
+      const response = await axios.delete(`${base_url}/wishlist/remove`, {
         data: {
           userId: user._id,
           productId: item._id,

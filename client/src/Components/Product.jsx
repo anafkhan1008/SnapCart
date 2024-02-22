@@ -14,6 +14,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import homeImage from "../assets/images/books.jpg";
 import UserContext from "../context/UserContext";
 import axios from "axios";
+import base_url from "../config";
 
 const ProductCard = styled(Card)({
   maxWidth: 360,
@@ -49,7 +50,7 @@ const Product = ({ id, image, price, name }) => {
   const navigate = useNavigate();
 
   const addWishlistItemToDB = async () => {
-    const response = await axios.post("http://localhost:3000/wishlist/add", {
+    const response = await axios.post(`${base_url}/wishlist/add`, {
       userId: user._id,
       productId: id,
     });
@@ -60,7 +61,7 @@ const Product = ({ id, image, price, name }) => {
 
   const removeWishlistItemToDB = async () => {
     try {
-      const response = await axios.delete("http://localhost:3000/wishlist/remove", {
+      const response = await axios.delete(`${base_url}/wishlist/remove`, {
         data: {
           userId: user._id,
           productId: id,
