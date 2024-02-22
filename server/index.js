@@ -11,6 +11,7 @@ require('dotenv').config();
 
 
 
+
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
         console.log('DB connected');
@@ -20,7 +21,7 @@ mongoose.connect(process.env.MONGO_URL)
     });
 
 
-
+seedDB()
 app.use(express.json())
 app.use(cors());
  
