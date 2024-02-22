@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGO_URL)
     });
 
 
-seedDB()
+
 app.use(express.json())
 app.use(cors());
  
