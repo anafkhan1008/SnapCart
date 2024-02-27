@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGO_URL)
         console.log('Error in connecting to DB', err);
     });
 
-
+seedDB()
 
 app.use(express.json())
 app.use(cors());
