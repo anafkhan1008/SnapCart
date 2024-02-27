@@ -50,17 +50,22 @@ const Product = ({ id, image, price, name }) => {
   const navigate = useNavigate();
 
   const addWishlistItemToDB = async () => {
+    addToWishList(id);
     const response = await axios.post(`${base_url}/wishlist/add`, {
       userId: user._id,
       productId: id,
     });
     if (response.status == 200) {
-      addToWishList(id);
+      console.log("item added to wishlist")
+    }
+    else{
+      removeFromWishlist(id)
     }
   };
 
   const removeWishlistItemToDB = async () => {
     try {
+      removeFromWishlist(id);
       const response = await axios.delete(`${base_url}/wishlist/remove`, {
         data: {
           userId: user._id,
@@ -68,17 +73,16 @@ const Product = ({ id, image, price, name }) => {
         }
       });
       if (response.status === 200) {
-        removeFromWishlist(id);
+        
       }
     } catch (error) {
       console.error("Error removing wishlist item:", error);
-      
+      addToWishList(id)
     }
   };
 
   const handleLike = async () => {
     if (!user) {
-      console.log("user nhi he baba");
       navigate("/signin");
     }
 

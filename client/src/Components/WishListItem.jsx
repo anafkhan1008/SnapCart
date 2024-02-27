@@ -12,12 +12,11 @@ import { useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import base_url from '../config';
-
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const WishListItem = ({ item }) => {
-  const theme = useTheme();
-  const { user , removeFromWishlist , cart } = useContext(UserContext)
-
+  const { user, removeFromWishlist, addToWishList } = useContext(UserContext);
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -25,43 +24,45 @@ const WishListItem = ({ item }) => {
   };
 
   const removeWishlistItemToDB = async () => {
+    console.log("hellooo delete")
     try {
+      removeFromWishlist(item._id);
       const response = await axios.delete(`${base_url}/wishlist/remove`, {
         data: {
           userId: user._id,
           productId: item._id,
         },
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
-      if (response.status === 200) {
-        removeFromWishlist(item._id);
-        console.log("Product removed from wishlist");
+      console.log(response)
+      if (response.status == 200) {
+        console.log("hellooooooooooooooooooooooooo")
+        enqueueSnackbar('Product removed from wishlist', { variant: 'success' });
+      } else {
+        throw new Error('Unexpected status code');
       }
     } catch (error) {
-      console.error("Error removing wishlist item:", error);
+      addToWishList(item._id);
+      console.error("Error removing product from wishlist:", error);
+      enqueueSnackbar('Error removing product from wishlist', { variant: 'error' });
     }
   };
-  
 
   return (
-    
-    <Card sx={{ display: 'flex', m : 1, maxWidth : '600px' , justifyContent : 'space-between'}}>
-      <Box sx={{ display: 'flex', flexDirection: 'column' , maxWidth : '600px'}}>
-        <CardContent sx={{ flex: '1 0 auto' , cursor : 'pointer' }} onClick={handleClick}>
+    <Card key={item._id} sx={{ display: 'flex', m: 1, maxWidth: '600px', justifyContent: 'space-between' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '600px' }}>
+        <CardContent sx={{ flex: '1 0 auto', cursor: 'pointer' }} onClick={handleClick}>
           <Typography component="div" variant="h5">
-            {item.name} 
+            {item.name}
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" component="div">
-            Price: ${item.price} 
+            Price: ${item.price}
           </Typography>
           <Typography variant="subtitle3" color="text.secondary" component="div">
-            {item.description} 
+            {item.description}
           </Typography>
         </CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-          <IconButton aria-label="remove from cart" onClick={removeWishlistItemToDB} >
+          <IconButton aria-label="remove from cart" onClick={removeWishlistItemToDB}>
             <RemoveCircleIcon />
           </IconButton>
         </Box>
@@ -69,12 +70,12 @@ const WishListItem = ({ item }) => {
       <CardMedia
         component="img"
         sx={{ width: 151 }}
-        image={item.image} 
-        alt={item.name} 
+        image={item.image}
+        alt={item.name}
       />
     </Card>
-    
   );
 };
 
 export default WishListItem;
+

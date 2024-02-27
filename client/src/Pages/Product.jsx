@@ -46,15 +46,19 @@ const Product = () => {
 
   const addToDBCart = async () => {
     try {
+      addToCart(id);
       const response = await axios.post(
         `${base_url}/users/${user._id}/cart/add`,
         { productId: id, quantity }
       );
       if (response.status === 200) {
-        addToCart(id);
         enqueueSnackbar('Product added to cart', { variant: 'info' });
       }
+      else{
+        throw new Error('Unexpected status code');
+      }
     } catch (error) {
+      removeFromCart(id)
       console.error("Error adding product to cart:", error);
       enqueueSnackbar('Error adding product to cart', { variant: 'warning' });
     }
@@ -62,14 +66,18 @@ const Product = () => {
 
   const removeFromCartDB = async () => {
     try {
+      removeFromCart(id);
       const res = await axios.delete(
         `${base_url}/users/${user._id}/cart/remove/${id}`
       );
       if (res.status === 200) {
-        removeFromCart(id);
         enqueueSnackbar('Product removed from cart', { variant: 'warning' });
       }
+      else{
+        throw new Error('Unexpected status code');
+      }
     } catch (error) {
+        addToCart(id)
       console.error("Error removing product from cart:", error);
       enqueueSnackbar('Error removing product from cart', { variant: 'error' });
     }
@@ -77,22 +85,27 @@ const Product = () => {
 
   const addWishlistItemToDB = async () => {
     try {
+      addToWishList(id);
       const response = await axios.post(`${base_url}/wishlist/add`, {
         userId: user._id,
         productId: id,
       });
       if (response.status === 200) {
-        addToWishList(id);
         enqueueSnackbar('Product added to wishlist', { variant: 'info' });
+      } else {
+        throw new Error('Unexpected status code');
       }
     } catch (error) {
       console.error("Error adding product to wishlist:", error);
+      removeFromWishlist(id);
       enqueueSnackbar('Error adding product to wishlist', { variant: 'error' });
     }
   };
+  
 
   const removeWishlistItemToDB = async () => {
     try {
+      removeFromWishlist(id);
       const response = await axios.delete(
         `${base_url}/wishlist/remove`,
         {
@@ -103,10 +116,13 @@ const Product = () => {
         }
       );
       if (response.status === 200) {
-        removeFromWishlist(id);
         enqueueSnackbar('Product removed from wishlist', { variant: 'success' });
       }
+      else{
+        throw new Error('Unexpected status code');
+      }
     } catch (error) {
+      addToWishList(id)
       console.error("Error removing product from wishlist:", error);
       enqueueSnackbar('Error removing product from wishlist', { variant: 'error' });
     }

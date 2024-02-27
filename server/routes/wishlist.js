@@ -19,7 +19,7 @@ router.post("/wishlist/add", async (req, res) => {
     }
     user.wishlist.push(productId);
     await user.save();
-    res.json(user.wishlist);
+    res.json(user.wishlist).status(200);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -31,6 +31,7 @@ router.delete("/wishlist/remove", async (req, res) => {
   console.log(userId , productId)
   try {
     const user = await User.findById(userId);
+    console.log(user)
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -41,12 +42,13 @@ router.delete("/wishlist/remove", async (req, res) => {
     }
     user.wishlist.splice(index, 1);
     await user.save();
-    res.json(user.wishlist).status(200);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.json({ success: true, wishlist: user.wishlist }).status(200);
   }
+  catch{(err)=>{
+    res.status(500).json({ success: false, message: error.message });
+  }}
 });
-
+ 
 
 router.get("/wishlist/:userId", async (req, res) => {
   const userId = req.params.userId;
