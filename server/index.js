@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth')
 const cartRoutes = require('./routes/cart')
 const wishlistRoutes = require('./routes/wishlist')
 const cors = require('cors');
+const path = require('path'); 
 require('dotenv').config();
 
 
@@ -18,8 +19,9 @@ mongoose.connect(process.env.MONGO_URL)
         console.log('Error in connecting to DB', err);
     });
 
-
-
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 app.use(express.json())
 app.use(cors());
  
