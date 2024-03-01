@@ -19,12 +19,13 @@ mongoose.connect(process.env.MONGO_URL)
         console.log('Error in connecting to DB', err);
     });
 
-app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+
 app.use(express.json())
 app.use(cors());
  
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.use(productRoutes);
 app.use(authRoutes);
