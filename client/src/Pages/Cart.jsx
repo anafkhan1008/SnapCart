@@ -18,6 +18,7 @@ function Cart() {
   const fetchData = async () => {
     try {
       const response = await axios.get(`${base_url}/users/${user._id}/cart`)
+      console.log(response.data)
       setData(response.data)
     } catch (error) {
       console.error('Error fetching cart data:', error);
@@ -26,16 +27,19 @@ function Cart() {
 
   useEffect(() => {
     fetchData();
+    console.log(data)
   }, [user]);
+
 
   useEffect(() => {
     if (data && data.length > 0) {
-      const total = data.reduce((acc, item) => acc + item.product.price, 0);
+      const total = data.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
       setTotalPrice(total);
     } else {
       setTotalPrice(0);
     }
   }, [data]);
+  
 
   return (
     <div>
@@ -46,7 +50,7 @@ function Cart() {
         {(data.length > 0 ? 
           <Container maxWidth="xl" sx={{display : 'flex' , flexDirection : 'column' , justifyContent : 'center'}}>
         {data.map((item) => (
-          <CartItem key={item._id} item={item} />
+          <CartItem item={item} />
         ))}
       </Container> :
       <Container>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Button, Typography, Container } from '@mui/material';
+import { Button, Typography, Container, Box } from '@mui/material';
 import HomeImage from "../assets/images/home3.jpg"
-
+import HeroImage from "../assets/images/heroimages.jpg"
 const HeroSection = styled('div')(({ theme }) => ({
   backgroundImage: `url(${HomeImage})`,
   backgroundSize: 'cover',
@@ -23,7 +23,7 @@ const HeroSection = styled('div')(({ theme }) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.0)', 
   },
 }));
 
@@ -53,15 +53,19 @@ function Hero({data}) {
   return (
     <HeroSection sx={{mb : 2}}>
       <ContentContainer maxWidth="md">
-        <Typography variant="h1" component="h1" gutterBottom>
-          Welcome to Grull Store
+        <div className='Backdrop' >
+        <Typography variant="h1" component="h1"  gutterBottom sx={{font : 'Fredoka' , fontWeight : '900' , }}>
+          Welcome to snapcart
         </Typography>
+       
         <Typography variant="h5" component="p" gutterBottom>
           Discover amazing products and enjoy great deals.
         </Typography>
         <StyledButton variant="contained" color="primary">
           Shop Now
         </StyledButton>
+        </div>
+      
       </ContentContainer>
     </HeroSection>
   );

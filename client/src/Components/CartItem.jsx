@@ -6,39 +6,40 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { SnackbarProvider, useSnackbar } from 'notistack';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import UserContext from '../context/UserContext'
 import { useContext } from 'react';
 import axios from 'axios';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 import base_url from '../config';
 
 const CartItem = ({ item }) => {
-  const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
-  const { user , removeFromCart , addToCart , cart } = useContext(UserContext)
-
+  const { user , removeFromCart , cart , addToCart} = useContext(UserContext)
+  const { enqueueSnackbar } = useSnackbar();
+  console.log(item)
    const prodId = item.product._id
     const userId = user._id
 
   const handleRemove = async() => {
     try{
-    removeFromCart(prodId)
-    const res = await axios.delete(`${base_url}/users/${userId}/cart/remove/${prodId}`)
-    if(res.status == 200)
-    {
-      enqueueSnackbar(`${item.product.name} removed from cart`, { variant: 'success' });
-      console.log("Item removed from cart")
-    }
+      const res = await axios.delete(`${base_url}/users/${userId}/cart/remove/${prodId}`)
+      removeFromCart(prodId)
+      enqueueSnackbar(`${item.product.name} removed from the cart`, { variant: 'success' });
     }
     catch{
       (err)=>{
-        console.log(err)
-         addToCart(prodId)
-         enqueueSnackbar('error in removing from cart', { variant: 'error' });
+        enqueueSnackbar('Error in removing product from cart', { variant: 'error' });
+        addToCart(prodId)
+
       }
     }
-   
+    
+    if(res.status == 200)
+    {
+      
+        console.log("Item removed from cart")
+    }
   };
 
   return (

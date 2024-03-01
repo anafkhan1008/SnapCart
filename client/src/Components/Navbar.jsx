@@ -205,7 +205,7 @@ export default function Navbar() {
           sx={{ display: { xs: "none", sm: "block" } }}
         >
           <Link to="/" className="LinkNoUnderline StyleTextBlack">
-            Grull
+            Snapcart
           </Link>
         </Typography>
         <Search>

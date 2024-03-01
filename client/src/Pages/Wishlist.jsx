@@ -10,7 +10,7 @@ import base_url from '../config';
 function Wishlist() {
   const { user } = useContext(UserContext);
   const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
+
 
   const fetchData = async () => {
     try {
@@ -24,7 +24,7 @@ function Wishlist() {
 
   useEffect(() => {
     fetchData();
-  }, [user]);
+  }, [user , data]);
 
   return (
     <div>

@@ -10,7 +10,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-
+import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import UserContext from '../context/UserContext';
@@ -21,6 +21,7 @@ import base_url from '../config';
 
 function Signin() {
   const { setUser } = useContext(UserContext);
+  const [loading , setLoading] = React.useState(false)
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (event) => {
@@ -33,6 +34,7 @@ function Signin() {
 
     try {
       const response = await axios.post(`${base_url}/login`, formData);
+      setLoading(true)
       if (response.data.user) {
         localStorage.setItem('user', JSON.stringify(response.data.user));
         enqueueSnackbar('Login successful', { variant: 'success' });
@@ -44,6 +46,9 @@ function Signin() {
     } catch (error) {
       console.error('Error signing in:', error);
       enqueueSnackbar('An error occurred while signing in', { variant: 'error' });
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -103,15 +108,15 @@ function Signin() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              className='StyledButton'
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
+             <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            className='StyledButton'
+            sx={{ mt: 3, mb: 2 , backgroundColor :'black' }}
+          >
+            {loading ?  <CircularProgress sx={{color : 'white'}} size={27} /> :"Sign In"}
+          </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2" className='StyleTextBlack'>
