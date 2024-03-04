@@ -7,7 +7,6 @@ const authRoutes = require('./routes/auth')
 const cartRoutes = require('./routes/cart')
 const wishlistRoutes = require('./routes/wishlist')
 const cors = require('cors');
-const path = require('path'); 
 require('dotenv').config();
 
 
@@ -23,9 +22,7 @@ mongoose.connect(process.env.MONGO_URL)
 app.use(express.json())
 app.use(cors());
  
-app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+
 
 app.use(productRoutes);
 app.use(authRoutes);
