@@ -35,7 +35,7 @@ const WishListItem = ({ item }) => {
       });
       console.log(response)
       if (response.status == 200) {
-        console.log("hellooooooooooooooooooooooooo")
+ 
         enqueueSnackbar('Product removed from wishlist', { variant: 'success' });
       } else {
         throw new Error('Unexpected status code');
@@ -48,32 +48,34 @@ const WishListItem = ({ item }) => {
   };
 
   return (
-    <Card key={item._id} sx={{ display: 'flex', m: 1, maxWidth: '600px', justifyContent: 'space-between' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '600px' }}>
-        <CardContent sx={{ flex: '1 0 auto', cursor: 'pointer' }} onClick={handleClick}>
-          <Typography component="div" variant="h5">
-            {item.name}
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div">
-            Price: ${item.price}
-          </Typography>
-          <Typography variant="subtitle3" color="text.secondary" component="div">
-            {item.description}
-          </Typography>
-        </CardContent>
-        <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-          <IconButton aria-label="remove from cart" onClick={removeWishlistItemToDB}>
-            <RemoveCircleIcon />
-          </IconButton>
-        </Box>
+    <Card sx={{ display: 'flex', m: 2, width: '80%', flexDirection: { xs: 'column-reverse', sm: 'row' } ,justifyContent: 'space-between' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '700px', justifyContent: 'space-between' }}>
+      <CardContent sx={{ flex: '1 0 auto', cursor: 'pointer' }} onClick={handleClick}>
+        <Typography component="div" variant="h5">
+          {item.name}
+        </Typography>
+        <Typography variant="subtitle1" color="text.secondary" component="div">
+          Price: ${item.price}
+        </Typography>
+        <Typography variant="subtitle3" color="text.secondary" component="div">
+          {item.description}
+        </Typography>
+      </CardContent>
+      <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+        <IconButton aria-label="remove from cart" onClick={removeWishlistItemToDB}>
+          <RemoveCircleIcon />
+        </IconButton>
       </Box>
-      <CardMedia
-        component="img"
-        sx={{ width: 151 }}
-        image={item.image}
-        alt={item.name}
-      />
-    </Card>
+    </Box>
+    <CardMedia
+       onClick={handleClick}
+       cursor = "pointer"
+      component="img"
+      sx={{ width: { xs: '100%', sm: 200 } }}
+      image={item.image}
+      alt={item.name}
+    />
+  </Card>
   );
 };
 

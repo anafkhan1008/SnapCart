@@ -4,14 +4,16 @@ import './App.css';
 import UserContextProvider from './context/UserContextProvider';
 import { SnackbarProvider } from 'notistack';
 
-// Lazy-loaded components
 const Home = lazy(() => import('./Pages/Home'));
 const Category = lazy(() => import('./Pages/Category'));
+const AddProduct = lazy(() => import('./Pages/AddProduct'))
 const Product = lazy(() => import('./Pages/Product'));
 const Signup = lazy(() => import('./Pages/Signup'));
 const Signin = lazy(() => import('./Pages/Signin'));
 const Cart = lazy(() => import('./Pages/Cart'));
 const Wishlist = lazy(() => import('./Pages/Wishlist'));
+const PaymentSuccess = lazy(()=> import('./Pages/PaymentSuccess'))
+const Profile = lazy(()=> import('./Pages/Profile'))
 
 function App() {
   return (
@@ -22,11 +24,16 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/category/:name" element={<Category />} />
+              <Route path="/addproduct" element={<AddProduct />} />
               <Route path="/product/:id" element={<Product />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/signin" element={<Signin />} />
+              <Route path="/signin" element={<Signin/>} />
+              <Route path="/signup" element={<Signup/>} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/paymentsuccess/reference/:id" element={<PaymentSuccess />} />
+              <Route path="/user/:id" element={<Profile />} />
+
+
             </Routes>
           </Suspense>
         </Router>

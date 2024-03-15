@@ -6,9 +6,12 @@ const productRoutes = require('./routes/product');
 const authRoutes = require('./routes/auth')
 const cartRoutes = require('./routes/cart')
 const wishlistRoutes = require('./routes/wishlist')
+const paymentRoutes = require('./routes/payment')
+const reviewRoutes = require('./routes/review')
+
 const cors = require('cors');
 require('dotenv').config();
-
+const PORT = process.env.PORT || 4000
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
@@ -18,18 +21,21 @@ mongoose.connect(process.env.MONGO_URL)
         console.log('Error in connecting to DB', err);
     });
 
+        
+
 
 app.use(express.json())
 app.use(cors());
  
 
-
 app.use(productRoutes);
 app.use(authRoutes);
 app.use(cartRoutes);
-app.use(wishlistRoutes)
+app.use(wishlistRoutes);
+app.use(reviewRoutes);
+app.use(paymentRoutes)
 
-app.listen(process.env.PORT, () => {
+app.listen(PORT, () => {
     console.log(`App is listening on port ${PORT}`);
 });
 

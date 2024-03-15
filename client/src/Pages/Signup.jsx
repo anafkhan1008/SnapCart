@@ -1,45 +1,67 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
-import CircularProgress from '@mui/material/CircularProgress';
-import base_url from '../config';
+import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
+import base_url from "../config";
 
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
       <Link color="inherit" href="/">
         snapcart.com
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
 export default function Signup() {
   const navigate = useNavigate();
-  const [isLoading , setisLoading] = React.useState(false);
+  const [gender, setGender] = React.useState('');
+  const [role, setRole] = React.useState('');
+
+  const handleChange = (event) => {
+    if (event.target.name === 'gender') {
+      setGender(event.target.value);
+    } else if (event.target.name === 'role') {
+      setRole(event.target.value);
+    }
+  };
+
+  const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setisLoading(true);
+    setIsLoading(true);
     const data = new FormData(event.currentTarget);
     const formData = {
-      username: data.get('username'),
-      email: data.get('email'),
-      password: data.get('password'),
+      username: data.get("username"),
+      email: data.get("email"),
+      password: data.get("password"),
+      gender : data.get("gender"),
+      role : data.get('role')
     };
 
     try {
@@ -50,7 +72,7 @@ export default function Signup() {
     } catch (error) {
       setError(error.response.data.message);
     } finally {
-      setisLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -60,13 +82,13 @@ export default function Signup() {
       <Box
         sx={{
           marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, backgroundColor : 'black' }}>
-        <MeetingRoomIcon/>
+        <Avatar sx={{ m: 1, backgroundColor: "black" }}>
+          <MeetingRoomIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
@@ -95,6 +117,39 @@ export default function Signup() {
               />
             </Grid>
             <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="gender-label">Select gender</InputLabel>
+                <Select
+                  labelId="gender-label"
+                  id="gender"
+                  value={gender}
+                  name="gender"
+                  label="Select gender"
+                  onChange={handleChange}
+                >
+                  <MenuItem value="male">Male</MenuItem>
+                  <MenuItem value="female">Female</MenuItem>
+                  <MenuItem value="other">Other</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="role-label">Select role</InputLabel>
+                <Select
+                  labelId="role-label"
+                  id="role"
+                  value={role}
+                  name="role"
+                  label="Select role"
+                  onChange={handleChange}
+                >
+                  <MenuItem value="buyer">Buyer</MenuItem>
+                  <MenuItem value="seller">Seller</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
@@ -110,9 +165,13 @@ export default function Signup() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 , backgroundColor :'black' }}
+            sx={{ mt: 3, mb: 2, backgroundColor: "black" }}
           >
-            {isLoading ? <CircularProgress sx={{color : 'white'}} size={28} />  :"Sign Up"}
+            {isLoading ? (
+              <CircularProgress sx={{ color: "white" }} size={28} />
+            ) : (
+              "Sign Up"
+            )}
           </Button>
           {error && (
             <Typography variant="body2" color="error" align="center">
@@ -122,10 +181,9 @@ export default function Signup() {
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="#" variant="body2">
-                <div className='StyleTextBlack'>
+                <div className="StyleTextBlack">
                   Already have an account? Sign in
                 </div>
-                
               </Link>
             </Grid>
           </Grid>

@@ -35,6 +35,7 @@ function Signin() {
     try {
       const response = await axios.post(`${base_url}/login`, formData);
       setLoading(true)
+      console.log(response.data)
       if (response.data.user) {
         localStorage.setItem('user', JSON.stringify(response.data.user));
         enqueueSnackbar('Login successful', { variant: 'success' });

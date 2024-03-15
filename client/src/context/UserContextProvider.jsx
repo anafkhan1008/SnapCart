@@ -40,6 +40,11 @@ const UserContextProvider = ({ children }) => {
     updateUserAndLocalStorage({ ...user, cart: updatedCart });
   };
 
+  const removeAllFromCart = () => {
+    setCart([]);
+    updateUserAndLocalStorage({ ...user, cart: [] });
+};
+
   const removeFromWishlist = (itemId) => {
  
     const updatedWishlist = wishlist.filter((itemIdInWishlist) => itemIdInWishlist !== itemId);
@@ -57,6 +62,7 @@ const UserContextProvider = ({ children }) => {
     wishlist,
     addToWishList,
     removeFromWishlist,
+    removeAllFromCart
   };
 
   return (

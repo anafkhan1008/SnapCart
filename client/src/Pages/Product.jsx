@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -7,8 +7,9 @@ import {
   Button,
   Grid,
   IconButton,
+  Rating,
 } from "@mui/material";
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import { SnackbarProvider, useSnackbar } from "notistack";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import homeImage from "../assets/images/home2.jpg";
@@ -17,16 +18,25 @@ import axios from "axios";
 import UserContext from "../context/UserContext";
 import Footer from "../Components/Footer";
 import base_url from "../config";
+import Comments from "../Components/Comments";
 
+import AddComment from "../Components/AddComment";
 const Product = () => {
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
-  const { user, addToCart, removeFromCart, addToWishList, removeFromWishlist } = useContext(UserContext);
+  const { user, addToCart, removeFromCart, addToWishList, removeFromWishlist } =
+    useContext(UserContext);
   const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(1)
-
+  const [quantity, setQuantity] = useState(1);
+  const [value, setValue] = useState(2);
   const isProductInCart = user && user.cart && user.cart.includes(id);
-  const isProductInWishlist = user && user.wishlist && user.wishlist.includes(id);
+  const isProductInWishlist =
+    user && user.wishlist && user.wishlist.includes(id);
+    const [rating , setRating] = useState(0);
+  const [review , setReview] = useState([]);
+
+const navigate = useNavigate();
+
 
   const handleCart = () => {
     if (!isProductInCart) {
@@ -42,7 +52,7 @@ const Product = () => {
     } else {
       removeWishlistItemToDB();
     }
-  }
+  };
 
   const addToDBCart = async () => {
     try {
@@ -52,15 +62,14 @@ const Product = () => {
         { productId: id, quantity }
       );
       if (response.status === 200) {
-        enqueueSnackbar('Product added to cart', { variant: 'info' });
-      }
-      else{
-        throw new Error('Unexpected status code');
+        enqueueSnackbar("Product added to cart", { variant: "info" });
+      } else {
+        throw new Error("Unexpected status code");
       }
     } catch (error) {
-      removeFromCart(id)
+      removeFromCart(id);
       console.error("Error adding product to cart:", error);
-      enqueueSnackbar('Error adding product to cart', { variant: 'warning' });
+      enqueueSnackbar("Error adding product to cart", { variant: "warning" });
     }
   };
 
@@ -71,15 +80,14 @@ const Product = () => {
         `${base_url}/users/${user._id}/cart/remove/${id}`
       );
       if (res.status === 200) {
-        enqueueSnackbar('Product removed from cart', { variant: 'warning' });
-      }
-      else{
-        throw new Error('Unexpected status code');
+        enqueueSnackbar("Product removed from cart", { variant: "warning" });
+      } else {
+        throw new Error("Unexpected status code");
       }
     } catch (error) {
-        addToCart(id)
+      addToCart(id);
       console.error("Error removing product from cart:", error);
-      enqueueSnackbar('Error removing product from cart', { variant: 'error' });
+      enqueueSnackbar("Error removing product from cart", { variant: "error" });
     }
   };
 
@@ -91,54 +99,62 @@ const Product = () => {
         productId: id,
       });
       if (response.status === 200) {
-        enqueueSnackbar('Product added to wishlist', { variant: 'info' });
+        enqueueSnackbar("Product added to wishlist", { variant: "info" });
       } else {
-        throw new Error('Unexpected status code');
+        throw new Error("Unexpected status code");
       }
     } catch (error) {
       console.error("Error adding product to wishlist:", error);
       removeFromWishlist(id);
-      enqueueSnackbar('Error adding product to wishlist', { variant: 'error' });
+      enqueueSnackbar("Error adding product to wishlist", { variant: "error" });
     }
   };
-  
 
   const removeWishlistItemToDB = async () => {
     try {
       removeFromWishlist(id);
-      const response = await axios.delete(
-        `${base_url}/wishlist/remove`,
-        {
-          data: {
-            userId: user._id,
-            productId: id,
-          },
-        }
-      );
+      const response = await axios.delete(`${base_url}/wishlist/remove`, {
+        data: {
+          userId: user._id,
+          productId: id,
+        },
+      });
       if (response.status === 200) {
-        enqueueSnackbar('Product removed from wishlist', { variant: 'success' });
-      }
-      else{
-        throw new Error('Unexpected status code');
+        enqueueSnackbar("Product removed from wishlist", {
+          variant: "success",
+        });
+      } else {
+        throw new Error("Unexpected status code");
       }
     } catch (error) {
-      addToWishList(id)
+      addToWishList(id);
       console.error("Error removing product from wishlist:", error);
-      enqueueSnackbar('Error removing product from wishlist', { variant: 'error' });
+      enqueueSnackbar("Error removing product from wishlist", {
+        variant: "error",
+      });
     }
   };
+
+  const handleSeller = () => {
+
+    navigate(`/user/${product.author}`)
+
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${base_url}/product/${id}`);
         setProduct(response.data);
+        setReview(response.data.reviews)
+        const totalRating = review.reduce((acc, review) => acc + review.rating, 0);
+        setRating(totalRating / review.length);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
     };
     fetchData();
-  }, [id]);
+  }, [product]);
 
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -149,8 +165,6 @@ const Product = () => {
       setQuantity(quantity - 1);
     }
   };
-
-
   return (
     <Box sx={{ color: "black" }}>
       <Navbar />
@@ -192,6 +206,7 @@ const Product = () => {
                 {product?.description ||
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
               </Typography>
+              <Rating name="read-only" value={rating} readOnly />
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <IconButton onClick={decreaseQuantity} variant="outlined">
                   <RemoveIcon />
@@ -203,11 +218,12 @@ const Product = () => {
                   <AddIcon />
                 </IconButton>
               </Box>
-              <Button
+              <Box sx={{display : 'flex' , flexDirection : 'row' , width : '100%'}} >
+                <Button
                 variant="contained"
                 color="primary"
                 className="StyledButton"
-                sx={{ mr: 2, mt: 2 }}
+                sx={{ mr: 1, mt: 1 , textWrap : 'nowrap'}}
                 onClick={handleCart}
               >
                 {user && user.cart && user.cart.includes(id)
@@ -218,19 +234,37 @@ const Product = () => {
                 variant="contained"
                 color="primary"
                 className="StyledButton"
-                sx={{ mr: 2, mt: 2 }}
+                sx={{ mr: 1, mt: 1 , textWrap : 'nowrap'}}
                 onClick={handleWishlist}
               >
                 {user && user.wishlist && user.wishlist.includes(id)
                   ? "Remove from wishlist"
                   : "Add to wishlist"}
-              </Button>
+              </Button> 
+              </Box>
+              <Button
+                variant="contained"
+                color="primary"
+                className="StyledButton"
+                sx={{ mr: 1, mt: 1 , textWrap : 'nowrap', borderRadius : '20px'}}
+                onClick={ handleSeller }
+              >
+              {
+                product && product.author ?
+                ('View seller') :
+                ('')
+              }
+              </Button> 
+             
             </Box>
           </Grid>
+          <Box>
+            <AddComment data={{ prodId: id , user}} />
+            <Comments reviews={review} />
+          </Box>
         </Grid>
       </Container>
       <Footer />
-      
     </Box>
   );
 };
@@ -242,4 +276,3 @@ const ProductWithSnackbar = () => (
 );
 
 export default ProductWithSnackbar;
-

@@ -2,8 +2,9 @@
 
 #root , body , html {
   padding: 0;
-
+ --primary-color: #000000;
 }
+
 .StyledButton {
   margin-top: 3px;
   padding: 20px 60px;

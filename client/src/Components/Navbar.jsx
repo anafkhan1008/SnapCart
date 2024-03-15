@@ -16,7 +16,7 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import UserContext from "../context/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 
 const Search = styled("div")(({ theme }) => ({
@@ -62,14 +62,13 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const { wishlist, user, cart } = useContext(UserContext);
-  console.log(wishlist.length);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  const navigate = useNavigate();
   const handleSignout = () => {
-    localStorage.clear(user)
-    window.location.reload()
-  }
+    localStorage.clear(user);
+    window.location.reload();
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -160,26 +159,24 @@ export default function Navbar() {
         <p>Profile</p>
       </MenuItem>
       <MenuItem>
-      {user ? (
-            <Link>
-           
-            <Button variant="contained" className="StyledButton" onClick={handleSignout}>
-              Sign out
-            </Button> </Link>
-          ) : (
-            
-            <Link
-              to="/signin"
+        {user ? (
+          <Link>
+            <Button
+              variant="contained"
+              className="StyledButton"
+              onClick={handleSignout}
             >
-              <Button variant="contained" className="StyledButton">
-                Sign in
-              </Button>
-            </Link>
-          )}
-      
-       
+              Sign out
+            </Button>{" "}
+          </Link>
+        ) : (
+          <Link to="/signin">
+            <Button variant="contained" className="StyledButton">
+              Sign in
+            </Button>
+          </Link>
+        )}
       </MenuItem>
-
     </Menu>
   );
 
@@ -219,33 +216,54 @@ export default function Navbar() {
         </Search>
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: { xs: "none", md: "flex" } }}>
-          {user ? (
+          <Box sx={{m : 1}} >
+            {user ? (
             <Link>
-           
-            <Button variant="contained" className="StyledButton" onClick={handleSignout}>
-              Sign out
-            </Button> </Link>
+              <Button
+                variant="contained"
+                className="StyledButton"
+                onClick={handleSignout}
+              >
+                Sign out
+              </Button>{" "}
+            </Link>
           ) : (
-            
-            <Link
-              to="/signin"
-            >
+            <Link to="/signin">
               <Button variant="contained" className="StyledButton">
                 Sign in
               </Button>
             </Link>
+          )} 
+          </Box>
+         <Box sx={{m : 1}} >
+           { user && user.role == "seller" ? (
+            
+              <Button
+                variant="contained"
+                className="StyledButton"
+                onClick={()=>{
+                  navigate("/addproduct")
+                }}
+              >
+                Add product
+              </Button>
+          
+          ) : (
+            ""
           )}
-          <Link to="/wishlist" className="LinkNoUnderline StyleTextBlack" >
-          <IconButton
-            size="large"
-            aria-label="show 4 new mails"
-            color="inherit"
-          >
-            <Badge badgeContent={wishlist.length} color="error">
-              <ShoppingBagIcon />
-            </Badge>
-          </IconButton>
-           </Link>
+         </Box>
+         
+          <Link to="/wishlist" className="LinkNoUnderline StyleTextBlack">
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
+              <Badge badgeContent={wishlist.length} color="error">
+                <ShoppingBagIcon />
+              </Badge>
+            </IconButton>
+          </Link>
 
           <Link to="/cart" className="LinkNoUnderline StyleTextBlack">
             <IconButton

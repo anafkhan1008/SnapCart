@@ -33,6 +33,28 @@ router.post("/users/:userId/cart/add", async (req, res) => {
   }
 });
 
+router.delete("/users/:userId/cart/remove/all", async (req, res) => {
+  console.log("delete all route hit");
+  const { userId } = req.params;
+  console.log(userId);
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (user.cart.length > 0) {
+      user.cart = [];
+    }
+
+    await user.save();
+    res.status(200).json({ message: "Cart cleared successfully", cart: user.cart });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 
 router.delete("/users/:userId/cart/remove/:productId", async (req, res) => {
   const { userId, productId } = req.params;
@@ -58,6 +80,8 @@ router.delete("/users/:userId/cart/remove/:productId", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+
 
 
 router.get("/users/:userId/cart", async (req, res) => {

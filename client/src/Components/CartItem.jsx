@@ -17,7 +17,7 @@ const CartItem = ({ item }) => {
   const theme = useTheme();
   const { user , removeFromCart , cart , addToCart} = useContext(UserContext)
   const { enqueueSnackbar } = useSnackbar();
-  console.log(item)
+
    const prodId = item.product._id
     const userId = user._id
 

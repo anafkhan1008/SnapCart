@@ -18,6 +18,15 @@ const userSchema = new mongoose.Schema({
     trim : true,
     required : true
   },
+  gender : {
+    type : String,
+    trim : true,
+    required : true
+  },
+  role: {
+    type: String,
+    default: "buyer",
+  },
   wishlist: [
     {
       type: mongoose.Schema.Types.ObjectId,
