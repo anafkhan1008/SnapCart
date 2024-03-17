@@ -70,7 +70,7 @@ const handleClick = () => {
         <Typography variant="h5" component="p" gutterBottom>
           Discover amazing products and enjoy great deals.
         </Typography>
-        <StyledButton variant="contained" color="primary" onClick={handleClick}>
+        <StyledButton variant="contained" color="primary" onClick={handleClick} >
           Shop Now
         </StyledButton>
         </div>

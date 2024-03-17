@@ -74,7 +74,7 @@ const Footer = () => {
                 <CtaItem>
                   <Home className="ctaIcon" />
                   <div>
-                    <Typography variant="h6">1010 Avenue, sw 54321, chandigarh</Typography>
+                    <Typography variant="h6">1010 Avenue, sw 54321, New york</Typography>
                   </div>
                 </CtaItem>
                 <CtaItem>
