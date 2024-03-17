@@ -9,6 +9,10 @@ const wishlistRoutes = require('./routes/wishlist')
 const paymentRoutes = require('./routes/payment')
 const reviewRoutes = require('./routes/review')
 
+const AWS = require('aws-sdk');
+
+require('aws-sdk/lib/maintenance_mode_message').suppress = true;
+
 const cors = require('cors');
 require('dotenv').config();
 const PORT = process.env.PORT || 4000
@@ -21,7 +25,7 @@ mongoose.connect(process.env.MONGO_URL)
         console.log('Error in connecting to DB', err);
     });
 
-        
+const s3 = new AWS.S3();
 
 
 app.use(express.json())

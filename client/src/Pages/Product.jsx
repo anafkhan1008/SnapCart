@@ -32,11 +32,10 @@ const Product = () => {
   const isProductInCart = user && user.cart && user.cart.includes(id);
   const isProductInWishlist =
     user && user.wishlist && user.wishlist.includes(id);
-    const [rating , setRating] = useState(0);
-  const [review , setReview] = useState([]);
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState([]);
 
-const navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   const handleCart = () => {
     if (!isProductInCart) {
@@ -136,18 +135,19 @@ const navigate = useNavigate();
   };
 
   const handleSeller = () => {
-
-    navigate(`/user/${product.author}`)
-
-  }
+    navigate(`/user/${product.author}`);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${base_url}/product/${id}`);
         setProduct(response.data);
-        setReview(response.data.reviews)
-        const totalRating = review.reduce((acc, review) => acc + review.rating, 0);
+        setReview(response.data.reviews);
+        const totalRating = review.reduce(
+          (acc, review) => acc + review.rating,
+          0
+        );
         setRating(totalRating / review.length);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -218,49 +218,57 @@ const navigate = useNavigate();
                   <AddIcon />
                 </IconButton>
               </Box>
-              <Box sx={{display : 'flex' , flexDirection : 'row' , width : '100%'}} >
-                <Button
+              {user && user._id ? (
+                <Box
+                  sx={{ display: "flex", flexDirection: "row", width: "100%" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className="StyledButton"
+                    sx={{ mr: 1, mt: 1, textWrap: "nowrap" }}
+                    onClick={handleCart}
+                  >
+                    {user && user.cart && user.cart.includes(id)
+                      ? "Remove from Cart"
+                      : "Add to Cart"}
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className="StyledButton"
+                    sx={{ mr: 1, mt: 1, textWrap: "nowrap" }}
+                    onClick={handleWishlist}
+                  >
+                    {user && user.wishlist && user.wishlist.includes(id)
+                      ? "Remove from wishlist"
+                      : "Add to wishlist"}
+                  </Button>
+                </Box>
+              ) : (
+                ""
+              )}
+
+              <Button
                 variant="contained"
                 color="primary"
                 className="StyledButton"
-                sx={{ mr: 1, mt: 1 , textWrap : 'nowrap'}}
-                onClick={handleCart}
+                sx={{ mr: 1, mt: 1, textWrap: "nowrap", borderRadius: "20px" }}
+                onClick={handleSeller}
               >
-                {user && user.cart && user.cart.includes(id)
-                  ? "Remove from Cart"
-                  : "Add to Cart"}
+                {product && product.author ? "View seller" : ""}
               </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                className="StyledButton"
-                sx={{ mr: 1, mt: 1 , textWrap : 'nowrap'}}
-                onClick={handleWishlist}
-              >
-                {user && user.wishlist && user.wishlist.includes(id)
-                  ? "Remove from wishlist"
-                  : "Add to wishlist"}
-              </Button> 
-              </Box>
-              <Button
-                variant="contained"
-                color="primary"
-                className="StyledButton"
-                sx={{ mr: 1, mt: 1 , textWrap : 'nowrap', borderRadius : '20px'}}
-                onClick={ handleSeller }
-              >
-              {
-                product && product.author ?
-                ('View seller') :
-                ('')
-              }
-              </Button> 
-             
             </Box>
           </Grid>
           <Box>
-            <AddComment data={{ prodId: id , user}} />
-            <Comments reviews={review} />
+            {user && user._id ? (
+              <>
+                <AddComment data={{ prodId: id, user }} />
+                <Comments reviews={review} />
+              </>
+            ) : (
+              <Comments reviews={review} />
+            )}
           </Box>
         </Grid>
       </Container>

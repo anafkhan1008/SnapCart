@@ -1,8 +1,9 @@
-import { useState, Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import UserContextProvider from './context/UserContextProvider';
 import { SnackbarProvider } from 'notistack';
+
 
 const Home = lazy(() => import('./Pages/Home'));
 const Category = lazy(() => import('./Pages/Category'));
@@ -14,6 +15,8 @@ const Cart = lazy(() => import('./Pages/Cart'));
 const Wishlist = lazy(() => import('./Pages/Wishlist'));
 const PaymentSuccess = lazy(()=> import('./Pages/PaymentSuccess'))
 const Profile = lazy(()=> import('./Pages/Profile'))
+const AllProducts = lazy(()=> import('./Pages/AllProducts'))
+
 
 function App() {
   return (
@@ -31,6 +34,7 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/paymentsuccess/reference/:id" element={<PaymentSuccess />} />
+              <Route path="/allproducts" element={<AllProducts />} />
               <Route path="/user/:id" element={<Profile />} />
 
 

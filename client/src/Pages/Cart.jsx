@@ -20,8 +20,8 @@ function Cart() {
   const [totalPrice, setTotalPrice] = useState(0);
   const currency = "INR";
   const navigate = useNavigate();
-  const id = user._id;
-  const userId = id.toString()
+
+  const userId = user._id;
   const verifyPayment = async (response) => {
     try {
       const res = await axios.post(`${base_url}/capture-payment`, response);
@@ -114,7 +114,11 @@ function Cart() {
   return (
     <div>
       <Navbar />
-      <Container maxWidth="xl">
+
+      {
+        user && user._id ? 
+        (
+ <Container maxWidth="xl">
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
             {data.length > 0 ? (
@@ -159,6 +163,16 @@ function Cart() {
           </Grid>
         </Grid>
       </Container>
+
+        ) : 
+        
+        (
+
+  <Typography variant="body1" color="initial">Please login first</Typography>
+
+        )
+      }
+     
     </div>
   );
 }

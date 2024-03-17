@@ -35,7 +35,12 @@ function Wishlist() {
           data.map((item) => <WishListItem key={item._id} item={item} />)
         ) : (
           <Typography variant="h2" color="initial">
-            No items are added in wishlist
+            {
+              user && user._id ? (
+                "No items added in wishlist"
+              ) :
+               ("Please login first")
+            }
           </Typography>
         )}
       </Container>

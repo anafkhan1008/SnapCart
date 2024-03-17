@@ -7,6 +7,7 @@ import {
   Typography,
   Container,
   Box,
+  Paper,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { useParams } from "react-router-dom";
@@ -14,6 +15,7 @@ import axios from "axios";
 import base_url from "../config";
 import { useEffect } from "react";
 import Navbar from "../Components/Navbar";
+import SellerProducts from "../Components/SellerProducts";
 
 const Profile = () => {
   const { id } = useParams();
@@ -35,31 +37,20 @@ const Profile = () => {
   return (
     <Box>
       <Navbar />
-      <Box sx={{}} >
-
-      </Box>
-      <Container maxWidth="md">
+      <Box>
          {user ? (
-           <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
-           <Avatar sx={{ width: 100, height: 100 }}  alt={user.username} />
-           <Typography variant="h4" mt={2}>{user.username}</Typography>
-           <Typography variant="body1" mt={1}>{user.email}</Typography>
-           <Box mt={3}>
-             <Button variant="contained" color="primary">Edit Profile</Button>
-           </Box>
-         </Box>
-         
-         
+           <Paper  sx={{display : "flex" , flexDirection : "row" , justifyContent : 'center' , background: 'linear-gradient(0deg, rgba(178,195,240,1) 0%, rgba(0,0,0,1) 100%)' }}   >
+            <Box sx={{display : 'flex' , flexDirection : 'column' , alignContent : 'center' , justifyContent : 'center'}} mt={5}>
+                <Avatar sx={{ width: 100, height: 100}}  alt={user.username} />
+           <Typography variant="h4" sx={{m : 'auto' , color : 'white'}}>{user.username}</Typography>
+            </Box>
+         </Paper>
          ) 
-
-
-         
-         
-         
-         
-         
          : "Loading"}
-      </Container>
+      
+      </Box>
+      <SellerProducts userId = {id} />
+     
      
     </Box>
   );

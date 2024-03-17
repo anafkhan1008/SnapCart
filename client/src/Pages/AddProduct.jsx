@@ -9,19 +9,19 @@ import axios from "axios";
 import base_url from "../config";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
-import { Box, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
-
-
+import { Box, MenuItem, Select, FormControl, InputLabel , IconButton } from "@mui/material";
+import { Label, Room, EmojiEmotions, Cancel } from "@mui/icons-material";
 export default function AddProduct() {
   const { user } = useContext(UserContext);
+  const [file , setFile] = React.useState(null);
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
     name: "",
     category: "",
     price: "",
-    image: "",
+    image: "", 
     description: "",
-    author : user._id
+    author: user._id,
   });
 
   const handleChange = (e) => {
@@ -32,31 +32,46 @@ export default function AddProduct() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Handle file selection for image upload
+  const handleImageChange = async(e) => {
+    const file = e.target.files[0];
+    setFile(file);
+    const filename = Date.now() + "-" + file.name;
+
+    const data = new FormData();
+    data.append("name" , filename);
+    data.append("image", file);
+    data.append('Content-Type' , 'image/png')
+
     try {
-      await axios.post(`${base_url}/addproducts`, formData);
-      // Reset form after successful submission
-      setFormData({
-        name: "",
-        category: "",
-        price: "",
-        image: "",
-        description: "",
-      });
+      const res = await axios.post(`${base_url}/upload` , data ,  { headers: {'Content-Type': 'multipart/form-data'}})
+       setFormData((prevData) => ({
+      ...prevData,
+      image: res.data.imageUrl,
+    }));
+
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+    
+      console.log(formData)
+      const res = await axios.post(`${base_url}/addproducts`, formData);
       navigate("/");
     } catch (error) {
       console.error("Error adding product:", error);
-      // Handle error here, e.g., display an error message
     }
   };
 
   return (
     <Box>
       <Navbar />
-      <Container maxWidth="md">
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={3}>
+      <Container maxWidth="md" >
+        <form onSubmit={handleSubmit} >
+          <Grid container spacing={3} m={3}>
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -98,14 +113,28 @@ export default function AddProduct() {
                 onChange={handleChange}
               />
             </Grid>
+            {file && (
+            <Grid container alignItems="center" sx={{padding : '20px'}} >
+              <Grid item>
+                <img
+                  className="shareImg"
+                  src={URL.createObjectURL(file)}
+                  alt=""
+                  style={{ maxWidth: '600px', height: 'auto' }}
+                />
+              </Grid>
+              <Grid item>
+                <IconButton onClick={() => setFile(null)}>
+                  <Cancel  />
+                </IconButton>
+              </Grid>
+            </Grid>
+          )}
             <Grid item xs={12}>
-              <TextField
-                fullWidth
-                required
-                name="image"
-                label="Image URL"
-                value={formData.image}
-                onChange={handleChange}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -119,8 +148,8 @@ export default function AddProduct() {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary">
+            <Grid item xs={12} sx={{margin : 'auto'}} >
+              <Button type="submit" variant="contained" color="primary" className="StyledButton" >
                 Add Product
               </Button>
             </Grid>

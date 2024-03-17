@@ -3,6 +3,9 @@ import { styled } from '@mui/material/styles';
 import { Button, Typography, Container, Box } from '@mui/material';
 import HomeImage from "../assets/images/home3.jpg"
 import HeroImage from "../assets/images/heroimages.jpg"
+import { useNavigate } from 'react-router-dom';
+
+
 const HeroSection = styled('div')(({ theme }) => ({
   backgroundImage: `url(${HomeImage})`,
   backgroundSize: 'cover',
@@ -50,6 +53,12 @@ const StyledButton = styled(Button)(({ theme }) => ({
   }));
 
 function Hero({data}) {
+const navigate = useNavigate()
+
+const handleClick = () => {
+  navigate('/allproducts')
+}
+
   return (
     <HeroSection sx={{mb : 2}}>
       <ContentContainer maxWidth="md">
@@ -61,7 +70,7 @@ function Hero({data}) {
         <Typography variant="h5" component="p" gutterBottom>
           Discover amazing products and enjoy great deals.
         </Typography>
-        <StyledButton variant="contained" color="primary">
+        <StyledButton variant="contained" color="primary" onClick={handleClick}>
           Shop Now
         </StyledButton>
         </div>
