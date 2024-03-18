@@ -57,10 +57,7 @@ export default function AddProduct() {
 
   const handleSubmit = async (e) => {
     try {
-    
-      console.log(formData)
-      const res = await axios.post(`${base_url}/addproducts`, formData);
-      navigate("/");
+      await axios.post(`${base_url}/addproducts`, formData);
     } catch (error) {
       console.error("Error adding product:", error);
     }
