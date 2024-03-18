@@ -56,8 +56,19 @@ export default function AddProduct() {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       await axios.post(`${base_url}/addproducts`, formData);
+
+      setFormData({
+        name: "",
+        category: "",
+        price: "",
+        image: "", 
+        description: "",
+        author: user._id,
+      });
+
     } catch (error) {
       console.error("Error adding product:", error);
     }
