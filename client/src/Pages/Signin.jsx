@@ -18,12 +18,14 @@ import { useContext } from 'react';
 import { useSnackbar } from 'notistack';
 import backgroundImage from '../assets/images/home.jpg';
 import base_url from '../config';
+import { useNavigate } from 'react-router-dom';
+
 
 function Signin() {
   const { setUser } = useContext(UserContext);
   const [loading , setLoading] = React.useState(false)
   const { enqueueSnackbar } = useSnackbar();
-
+ const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -125,9 +127,10 @@ function Signin() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2" className='StyleTextBlack'>
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                {"Don't have an account? Sign Up"}
+                <Button variant="outlined" color="primary" onClick={()=> {navigate('/signup')}} >
+                  Sign up
+                </Button>
               </Grid>
             </Grid>
             <Box mt={5}>
