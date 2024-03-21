@@ -24,7 +24,7 @@ router.post('/register', async (req, res) => {
 
 router.get("/user" , async (req , res)=>{
     const id = req.query.userId;
-
+    console.log(id)
     try{
         const user = await User.findById(id)
         res.json(user).status("ok")
@@ -36,6 +36,24 @@ router.get("/user" , async (req , res)=>{
         }
     }
 })
+
+router.put("/user/:userId", async (req, res) => {
+	const userId = req.params.userId;
+	
+	try {
+	  const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
+  
+	  if (!updatedUser) {
+		return res.status(404).json({ message: "User not found" });
+	  }
+  
+	  res.json({ message: "User updated successfully", user: updatedUser });
+	} catch (error) {
+	  console.error("Error updating user:", error);
+	  res.status(500).json({ message: "Internal server error" });
+	}
+  });
+
 
 
 router.post('/login', async (req, res) => {

@@ -31,7 +31,7 @@ function AddComment({ data }) {
   };
 
   return (
-    <Card sx={{ p: 3 }}>
+    <Card sx={{ p: 3 , borderRadius : '20px' , background: 'linear-gradient(0deg, rgba(195,202,221,1) 0%, rgba(255,255,255,1) 100%)'}}>
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={12}>
           <Typography variant="h6" gutterBottom>
@@ -55,6 +55,7 @@ function AddComment({ data }) {
             rows={3}
             label="Comment"
             value={comment}
+           
             onChange={handleCommentChange}
     
           />
@@ -64,6 +65,7 @@ function AddComment({ data }) {
             variant="contained"
             color="warning"
             onClick={handleAddComment}
+      
             fullWidth
             className="StyledButton"
           >

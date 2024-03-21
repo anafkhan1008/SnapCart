@@ -41,7 +41,7 @@ export default function SellerProducts({ userId }) {
     fetchProducts();
   }, []);
 
-  console.log(products)
+ 
 
   return (
     <Container sx={{ flexGrow: 1 , marginTop : '20px' , justifyContent : 'center'}}>

@@ -97,7 +97,7 @@ const Product = ({ id, image, price, name }) => {
     <ProductCard>
       <Link to={`/product/${id}`} className="LinkNoUnderline StyleTextBlack">
         <CardActionArea>
-          <ProductImage src={image ? image : homeImage} />
+          <ProductImage src={image ? image : "Loading"} />
           <StyledCardContent>
             <PriceTypography
               variant="h6"

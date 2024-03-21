@@ -68,6 +68,7 @@ export default function AddProduct() {
         description: "",
         author: user._id,
       });
+      setFile(null);
 
     } catch (error) {
       console.error("Error adding product:", error);

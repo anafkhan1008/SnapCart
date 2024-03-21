@@ -18,7 +18,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import UserContext from "../context/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-
+import StorefrontIcon from '@mui/icons-material/Storefront';
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -104,10 +104,11 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={()=>{ navigate(`/user/${user._id}`) }}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
-  );
+  ); 
+
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -186,17 +187,10 @@ export default function Navbar() {
       sx={{ backgroundColor: "#ffff", color: "black", flexGrow: "1" }}
     >
       <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
+         <StorefrontIcon fontSize="large"/>
+        
         <Typography
-          variant="h6"
+          variant="h4"
           noWrap
           component="div"
           sx={{ display: { xs: "none", sm: "block" } }}
@@ -205,15 +199,6 @@ export default function Navbar() {
             Snapcart
           </Link>
         </Typography>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ "aria-label": "search" }}
-          />
-        </Search>
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: { xs: "none", md: "flex" } }}>
           <Box sx={{m : 1}} >

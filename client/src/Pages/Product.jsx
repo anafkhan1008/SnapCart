@@ -12,7 +12,6 @@ import {
 import { SnackbarProvider, useSnackbar } from "notistack";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import homeImage from "../assets/images/home2.jpg";
 import Navbar from "../Components/Navbar";
 import axios from "axios";
 import UserContext from "../context/UserContext";
@@ -179,8 +178,8 @@ const Product = () => {
                 {product ? product.category : "category"}
               </Typography>
               <img
-                src={product?.image || homeImage}
-                alt={product?.name || "Product Image"}
+                src={product?.image || " "}
+                alt={product?.name || " "}
                 style={{ width: "100%", maxHeight: "700px" }}
               />
             </Box>
@@ -197,10 +196,10 @@ const Product = () => {
           >
             <Box sx={{ textAlign: "left", maxWidth: "400px" }}>
               <Typography variant="h4" gutterBottom>
-                {product?.name || "Sample Product"}
+                {product?.name || " "}
               </Typography>
               <Typography variant="h6" gutterBottom>
-                Price: ${product?.price || 19.99}
+                Price: ${product?.price || " "}
               </Typography>
               <Typography variant="body1" gutterBottom>
                 {product?.description ||
