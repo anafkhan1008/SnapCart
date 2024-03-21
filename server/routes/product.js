@@ -9,8 +9,8 @@ const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
 //create a post
 //image upload for s3
-const accessKeyId = "AKIAZBDGNN6DQZ4BZOCH"
-const secretAccessKey = "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"
+const accessKeyId = process.env.AWS_ACCESS_KEY
+const secretAccessKey = process.env.AWS_SECRET_KEY
 
 const s3 = new S3Client({
   region: 'ap-south-1',
